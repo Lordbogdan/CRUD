@@ -1,0 +1,39 @@
+version: "3.7"
+
+services:
+    nginx:
+        build:
+            context: .
+            dockerfile: ./docker/nginx/Dockerfile
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            - php-fpm
+        ports:
+            - "80:80"
+            - "443:443"
+        restart: always
+
+    php-fpm:
+        env_file: ./test/.env
+        build:
+            context: .
+            dockerfile: ./docker/php-fpm/Dockerfile
+        depends_on:
+            - postgres
+        volumes:
+            - .:/var/www/html
+        restart: always
+
+    postgres:
+        env_file: ./test/.env
+        build:
+            context: .
+            dockerfile: ./docker/postgres/Dockerfile
+        volumes:
+            - pg_data:/var/lib/postgresql/data:rw
+        ports:
+            - "5432:5432"
+
+volumes:
+    pg_data:
