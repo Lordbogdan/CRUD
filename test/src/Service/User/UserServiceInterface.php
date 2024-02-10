@@ -7,11 +7,8 @@ namespace App\Service\User;
 use App\Dto\User\Input\CreateOrUpdateUserDto;
 use App\Entity\User;
 
-
 interface UserServiceInterface
 {
-    public function create(CreateOrUpdateUserDto $dto): ?User;
-
     public function remove(string $id): void;
 
     public function update(CreateOrUpdateUserDto $dto, string $id): ?User;

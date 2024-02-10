@@ -15,8 +15,7 @@ class UserReadController extends AbstractController
     public function read(
         string               $id,
         UserServiceInterface $service,
-    ): Response
-    {
+    ): Response {
         $user = $service->read($id);
 
         return $this->json($user);

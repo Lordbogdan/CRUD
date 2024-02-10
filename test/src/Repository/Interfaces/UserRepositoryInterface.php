@@ -13,4 +13,6 @@ interface UserRepositoryInterface
     public function remove(string $id): void;
 
     public function getById(string $id): ?User;
+
+    public function getByPhone(string $phone): ?User;
 }

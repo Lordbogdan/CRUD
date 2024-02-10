@@ -8,19 +8,11 @@ use App\Dto\User\Input\CreateOrUpdateUserDto;
 use App\Entity\User;
 use App\Repository\Interfaces\UserRepositoryInterface;
 
-
 class UserService implements UserServiceInterface
 {
     public function __construct(
         private readonly UserRepositoryInterface $userRepository,
-    )
-    {
-    }
-
-    public function create(CreateOrUpdateUserDto $dto): ?User
-    {
-        $user = new User();
-        return $this->setUserData($user, $dto);
+    ) {
     }
 
     public function remove(string $id): void
@@ -47,6 +39,7 @@ class UserService implements UserServiceInterface
         $user->setPhone($dto->phone);
         $user->setBirthday($dto->birthDate);
         $user->setSex($dto->sex);
+        //$user->setPassword($dto->password);
 
         $this->userRepository->save($user);
 
