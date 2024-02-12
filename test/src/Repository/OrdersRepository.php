@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\Orders;
 use App\Repository\Interfaces\OrderRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Uid\Uuid;
 
@@ -20,6 +21,8 @@ use Symfony\Component\Uid\Uuid;
  */
 class OrdersRepository extends ServiceEntityRepository implements OrderRepositoryInterface
 {
+    public const ITEMS_PER_PAGE = 10;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Orders::class);
@@ -46,6 +49,21 @@ class OrdersRepository extends ServiceEntityRepository implements OrderRepositor
             ->setParameter('id', $id)
             ->getQuery()
             ->execute();
+    }
+
+    public function getPaginatorByUserId(Uuid $id, int $page = 1, int $sort = 1): Paginator
+    {
+        $offset = ($page - 1) * self::ITEMS_PER_PAGE;
+
+        $query = $this->createQueryBuilder('o')
+            ->where('o.userField =:id')
+            ->setParameter('id', $id)
+            ->setMaxResults(self::ITEMS_PER_PAGE)
+            ->setFirstResult($offset)
+            ->orderBy('o.title', $sort === 2 ? 'ASC' : 'DESC')
+            ->getQuery();
+
+        return new Paginator($query);
     }
 
     public function getOrderById(Uuid $id): ?Orders

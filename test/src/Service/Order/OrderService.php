@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Service\Order;
 
+use App\Dto\Order\Create\Input\CreateOrderDto;
+use App\Dto\Order\InputOrderDto;
+use App\Dto\Order\Update\Input\UpdateOrderDto;
 use App\Entity\Orders;
 use App\Entity\User;
 use App\Repository\Interfaces\OrderRepositoryInterface;
-use CreateOrderDto;
 use Symfony\Component\Uid\Uuid;
-use UpdateOrderDto;
 
 class OrderService implements OrderServiceInterface
 {
@@ -31,11 +32,25 @@ class OrderService implements OrderServiceInterface
         $this->orderRepository->save($order);
     }
 
-    public function read(User $user): ?array
+    public function read(User $user, int $page, int $sort): array
     {
-        $order = $this->orderRepository->getById($user->getId());
 
-        return $order;
+        $orders = $this->orderRepository->getPaginatorByUserId($user->getId(), $page, $sort);
+
+        $response = [];
+
+        foreach ($orders as $order) {
+            $response[] = [
+                'id' => $order->getId(),
+                'title' => $order->getTitle(),
+                'description' => $order->getDescription(),
+                'deadline' => $order->getDeadline(),
+                'status' => $order->isStatus(),
+                'created_at' => $order->getCreatedAt(),
+            ];
+        }
+
+        return $response;
     }
 
     public function remove(Uuid $id): void

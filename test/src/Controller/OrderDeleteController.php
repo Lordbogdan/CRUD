@@ -14,7 +14,7 @@ use Symfony\Component\Uid\Uuid;
 
 class OrderDeleteController extends AbstractController
 {
-    #[Route('/api/remove/{id}', name: 'app:orders-remove', methods: ['DELETE'])]
+    #[Route('/api/order/{id}', name: 'app:orders-remove', methods: ['DELETE'])]
     public function remove(
         string $id,
         OrderServiceInterface $service,

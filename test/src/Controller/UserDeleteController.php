@@ -15,8 +15,7 @@ class UserDeleteController extends AbstractController
     public function remove(
         string               $id,
         UserServiceInterface $service,
-    ): Response
-    {
+    ): Response {
         $service->remove($id);
 
         return $this->json([]);

@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace App\Dto\Order\Create\Input;
+
 use Symfony\Component\Validator\Constraints as Assert;
 
 class CreateOrderDto

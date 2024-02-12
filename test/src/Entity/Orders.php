@@ -40,7 +40,7 @@ class Orders
     #[ORM\ManyToOne(inversedBy: 'orders')]
     private ?User $userField = null;
 
-    public function getId(): ?int
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
