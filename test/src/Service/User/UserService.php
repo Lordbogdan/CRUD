@@ -39,7 +39,6 @@ class UserService implements UserServiceInterface
         $user->setPhone($dto->phone);
         $user->setBirthday($dto->birthDate);
         $user->setSex($dto->sex);
-        //$user->setPassword($dto->password);
 
         $this->userRepository->save($user);
 

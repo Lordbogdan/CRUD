@@ -12,7 +12,7 @@ use Symfony\Component\Uid\Uuid;
 
 interface OrderServiceInterface
 {
-    public function create(CreateOrderDto $dto, User $user): void;
+    public function create(CreateOrderDto $dto, User $user): Orders;
 
     public function read(User $user, int $page, int $sort): array;
 

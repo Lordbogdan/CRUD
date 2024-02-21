@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Service\Order;
 
 use App\Dto\Order\Create\Input\CreateOrderDto;
-use App\Dto\Order\InputOrderDto;
 use App\Dto\Order\Update\Input\UpdateOrderDto;
 use App\Entity\Orders;
 use App\Entity\User;
@@ -18,7 +17,7 @@ class OrderService implements OrderServiceInterface
         public readonly OrderRepositoryInterface $orderRepository,
     ) {
     }
-    public function create(CreateOrderDto $dto, User $user): void
+    public function create(CreateOrderDto $dto, User $user): Orders
     {
         $order = new Orders();
 
@@ -30,6 +29,8 @@ class OrderService implements OrderServiceInterface
         $order->setUserField($user);
 
         $this->orderRepository->save($order);
+
+        return $order;
     }
 
     public function read(User $user, int $page, int $sort): array
