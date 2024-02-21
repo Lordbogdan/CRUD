@@ -18,16 +18,12 @@ class RegistrationServiceTest extends TestCase
         $userRepository = $this->createMock(UserRepository::class);
         $passwordHasher = $this->createMock(UserPasswordHasher::class);
 
-        $user = new User();
-
-        $user->setPhone('test');
-
         $dto = new RegistrationDto('test', 'test');
 
         $userService = new RegistrationService($userRepository, $passwordHasher);
 
-        $userService->registration($dto);
+        $registerUser = $userService->registration($dto);
 
-        $this->assertEquals($dto->phone, $user->getPhone());
+        $this->assertEquals($dto->phone, $registerUser->getPhone());
     }
 }
